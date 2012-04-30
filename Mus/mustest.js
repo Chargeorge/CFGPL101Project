@@ -1,9 +1,7 @@
 var compileInner = function(musexpr, notearray, timetonow){
     if(musexpr.tag == 'seq')
     {
-        alert('Timetonow before: '+ timetonow);
         timetonow = compileInner(musexpr.left,notearray, timetonow);
-        alert('Timetonow before: '+ timetonow);
         timetonow = compileInner(musexpr.right,notearray, timetonow);
         return timetonow;
     } 
@@ -35,6 +33,6 @@ var melody_mus =
        { tag: 'seq',
          left: { tag: 'note', pitch: 'c4', dur: 500 },
          right: { tag: 'note', pitch: 'd4', dur: 500 } } };
-
+console.log ("hello world!");
 console.log(melody_mus);
 console.log(compile(melody_mus));

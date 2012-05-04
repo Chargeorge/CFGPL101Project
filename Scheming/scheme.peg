@@ -2,7 +2,7 @@ start =
     expression
 
 expression =
-    atom / expressionlistencl
+    atom / expressionlistencl 
     
 startparens = 
 	"("
@@ -14,11 +14,14 @@ validchar
     = [0-9a-zA-Z_?!+\-=@#$%^&*/.]
 
 atom =
-    chars:validchar+
+    (chars:validchar+)
         { return chars.join(""); }
-        
+     /
+	 quote
+
+		
 atomwhitespace=
-        space:" " atom:atom
+        space:whitespace atom:atom
         {return atom;}
 
 atomlist = 
@@ -26,12 +29,22 @@ atomlist =
         {return [first].concat(rest);}
 
 expressionlistencl = 
-	start:startparens first:(atom / expressionlistencl) rest:(atomwhitespace/expressionlistenclwhtspc)*  end:endparens
-        {return [first].concat(rest);}
+	(start:startparens first:(atom / expressionlistencl) rest:(atomwhitespace/expressionlistenclwhtspc)*  end:endparens
+        {return [first].concat(rest);})
+	
 
        
 expressionlistenclwhtspc = 
-	white:" " rest:expressionlistencl
+	white:whitespace rest:expressionlistencl
         {return rest;}
        
-    
+whitespace = 
+	[' '\t\r\n]+    
+
+quote =
+	start:"'" next:expression
+	{return ["quote"].concat(next);}
+
+comment=
+	start: ";;" rest: .*
+	{return [];}

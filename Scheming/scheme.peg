@@ -12,13 +12,23 @@ endparens =
     
 validchar
     = [0-9a-zA-Z_?!+\-=@#$%^&*/.]
+validfirstchar
+	=[a-zA-Z_?!+\-=@#$%^&*/.]
+
+digit
+	= [0-9]
+
+number
+	= digits: digit+
+		{return parseInt(digits.join(""));}
 
 atom =
-    (chars:validchar+)
-        { return chars.join(""); }
+    (first:validfirstchar rest:validchar*)
+        { return ([first].concat(rest)).join(""); }
      /
 	 quote
-
+	 /
+	 number
 		
 atomwhitespace=
         space:whitespace atom:atom

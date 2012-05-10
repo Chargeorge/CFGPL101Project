@@ -12,12 +12,17 @@
     "http://nathansuniversity.com/js/chai.js">
   </script>
   <script src="http://nathansuniversity.com/js/mocha.js">
-  <script src="EvalScheem.js">
+  
   </script>
+  <script src="EvalScheem.js"></script>
+  <script src="parser.js"></script>
   <script>      mocha.setup('tdd')</script>
   <script>
       var assert = chai.assert;
-
+      function evalScheemString(scheemString, env) {
+          var Tokens = SCHEEM.parse(scheemString);
+          return evalScheem(Tokens, env); 
+      }
       // A half-baked implementation of evalScheem
       
       // Some unit tests
@@ -56,12 +61,62 @@
         );
           });
           test('a dog and a cat', function () {
-              assert.deepEqual(
-            evalScheem(['+', 'dog', 'cat'], {}),
-            42
-        );
+              assert.deepEqual(evalScheem(['+', 'dog', 'cat'], {}),42);
           });
       });
+      
+      suite('math asserts', function(){
+            test('a dog and a cat add', function ()     {assert.throws(function () { evalScheem(['+', 'dog', 'cat'], {}); }); });
+            test('a dog and a cat Mult', function () { assert.throws(function () { evalScheem(['*', 'dog', 'cat'], {}); }); });
+            test('a dog and a cat sub', function () { assert.throws(function () { evalScheem(['-', 'dog', 'cat'], {}); }); });
+            test('a dog and a cat div', function () { assert.throws(function () { evalScheem(['/', 'dog', 'cat'], {}); }); });
+
+            test('a dog and a cat and a ferret add', function () { assert.throws(function () { evalScheem(['+', 'dog', 'cat', 'ferret'], {}); }); });
+            test('a dog and a cat  and a ferret  Mult', function () { assert.throws(function () { evalScheem(['*', 'dog', 'cat', 'ferret'], {}); }); });
+            test('a dog and a cat  and a ferret  sub', function () { assert.throws(function () { evalScheem(['-', 'dog', 'cat', 'ferret'], {}); }); });
+            test('a dog and a cat  and a ferret  div', function () { assert.throws(function () { evalScheem(['/', 'dog', 'cat', 'ferret'], {}); }); });
+
+        });
+
+        suite('math asserts', function () {
+            test('a dog and a cat add', function () { assert.throws(function () { evalScheem(['+', 'dog', 'cat'], {}); }); });
+            test('a dog and a cat Mult', function () { assert.throws(function () { evalScheem(['*', 'dog', 'cat'], {}); }); });
+            test('a dog and a cat sub', function () { assert.throws(function () { evalScheem(['-', 'dog', 'cat'], {}); }); });
+            test('a dog and a cat div', function () { assert.throws(function () { evalScheem(['/', 'dog', 'cat'], {}); }); });
+
+            test('a dog and a cat and a ferret add', function () { assert.throws(function () { evalScheem(['+', 'dog', 'cat', 'ferret'], {}); }); });
+            test('a dog and a cat  and a ferret  Mult', function () { assert.throws(function () { evalScheem(['*', 'dog', 'cat', 'ferret'], {}); }); });
+            test('a dog and a cat  and a ferret  sub', function () { assert.throws(function () { evalScheem(['-', 'dog', 'cat', 'ferret'], {}); }); });
+            test('a dog and a cat  and a ferret  div', function () { assert.throws(function () { evalScheem(['/', 'dog', 'cat', 'ferret'], {}); }); });
+
+        });
+
+        suite('parse', function () {
+            test('a number', function () {
+                assert.deepEqual(
+            SCHEEM.parse('42'),
+            42
+        );
+            });
+            test('a variable', function () {
+                assert.deepEqual(
+            SCHEEM.parse('x'),
+            'x'
+        );
+            });
+        });
+
+
+        suite('Eval and interpret', function () {
+              test('40 + 2', function () {
+                  assert.deepEqual(evalScheemString('(+ 40 2)', {}),42);
+              });
+              test('Stuff nested', function () {
+                  assert.deepEqual(evalScheemString('(+ (* 10 4) 2)', {}), 42);
+              });
+            
+        });
+
 
   </script>
   <script>

@@ -1,0 +1,60 @@
+start =
+    expression
+
+expression =
+    atom / expressionlistencl 
+    
+startparens = 
+	"("
+
+endparens = 
+	")"
+    
+validchar
+    = [0-9a-zA-Z_?!+\-=@#$%^&*/.]
+validfirstchar
+	=[a-zA-Z_?!+\-=@#$%^&*/.]
+
+digit
+	= [0-9]
+
+number
+	= digits: digit+
+		{return parseInt(digits.join(""));}
+
+atom =
+    (first:validfirstchar rest:validchar*)
+        { return ([first].concat(rest)).join(""); }
+     /
+	 quote
+	 /
+	 number
+		
+atomwhitespace=
+        space:whitespace atom:atom
+        {return atom;}
+
+atomlist = 
+        first:atom rest:atomwhitespace*
+        {return [first].concat(rest);}
+
+expressionlistencl = 
+	(start:startparens first:(atom / expressionlistencl) rest:(atomwhitespace/expressionlistenclwhtspc)*  end:endparens
+        {return [first].concat(rest);})
+	
+
+       
+expressionlistenclwhtspc = 
+	white:whitespace rest:expressionlistencl
+        {return rest;}
+       
+whitespace = 
+	[' '\t\r\n]+    
+
+quote =
+	start:"'" next:expression
+	{return ["quote"].concat(next);}
+
+comment=
+	start: ";;" rest: .*
+	{return [];}

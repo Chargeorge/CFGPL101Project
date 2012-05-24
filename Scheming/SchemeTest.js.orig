@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 var assert = require('assert');
 var evalScheem
 var PEG = require('pegjs');
@@ -5,6 +6,13 @@ var Scheem = require('./EvalScheem.js');
 var fs = require('fs'); // for loading files
     
 /*(// Read file contents
+=======
+var PEG = require('pegjs');
+var assert = require('assert');
+var fs = require('fs'); // for loading files
+
+// Read file contents
+>>>>>>> gh-pages
 var data = fs.readFileSync('scheme.peg', 'utf-8');
 // Show the PEG grammar file
 console.log(data);
@@ -13,6 +21,7 @@ var parse = PEG.buildParser(data).parse;
 // Do a test
 assert.deepEqual(parse("(a b c)"), ["a", "b", "c"]);
 console.log("Test 2: ");
+<<<<<<< HEAD
 assert.deepEqual(parse("('(a  b  c))"), [["quote", "a", "b", "c"]]);*/
 
 Scheem.alertTest();
@@ -44,3 +53,7 @@ assert_eq(evalScheem(['plusone', ['always3', 5]], env), 4,
 assert_eq(evalScheem(['plusone', ['+', ['plusone', 2],
                                        ['plusone', 3]]], env),
     8, '(plusone (+ (plusone 2) (plusone 3)))');*/
+=======
+assert.deepEqual(parse("('(a  b  c))"), [["quote", "a", "b", "c"]]);
+
+>>>>>>> gh-pages

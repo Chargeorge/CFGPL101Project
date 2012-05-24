@@ -1,4 +1,4 @@
-
+﻿
 <html>
 <head>
   <meta charset="utf-8">
@@ -6,6 +6,7 @@
   <script src=
     "http://nathansuniversity.com/js/jquery-1.7.1.min.js">
   </script>
+<<<<<<< HEAD
   <script src="../EvalScheemWeb.js"></script>
   <script src="../parser.js"></script>
 </head>
@@ -44,6 +45,18 @@ Pre done functions
 
 <input id="DoDebug" type="checkbox" /> Debug
 <input id="submitbutton" type="button" value="Run" />
+=======
+  <script src="../EvalScheem.js"></script>
+  <script src="../parser.js"></script>
+</head>
+<body>
+
+<textarea id="input" style="width:800px; height:300px;">
+(+ 1 2)</textarea>
+
+<input id="submitbutton" type="button" value="Run" />
+
+>>>>>>> gh-pages
 <div id="console" class="console" style="border:solid 1px;">
 <p>This is where output goes.</p>
 </div>
@@ -54,6 +67,7 @@ Pre done functions
     var log_console = function (msg) {
         $('#console').append('<p>' + msg + '</p>');
     };
+<<<<<<< HEAD
     var setInput = function (string) {
         $('#input').val(string);
     }
@@ -63,6 +77,11 @@ Pre done functions
         $('#submitbutton').click(function () {
             var env = {};
             defaultEnv.bindings["_DoDebug"] = $('#DoDebug').is(':checked'); ;
+=======
+    // After page load
+    $(function () {
+        $('#submitbutton').click(function () {
+>>>>>>> gh-pages
             var user_text = $('#input').val();
             $('#console').html(''); // clear console
             log_console('Your input was: "' + user_text + '"');
@@ -70,12 +89,19 @@ Pre done functions
                 var parsed = SCHEEM.parse(user_text);
                 log_console('Parsed: ' + JSON.stringify(parsed));
                 try {
+<<<<<<< HEAD
                     var result = evalScheem(parsed, defaultEnv);
+=======
+                    var result = evalScheem(parsed, {});
+>>>>>>> gh-pages
                     log_console('Result: ' + JSON.stringify(result));
                 }
                 catch (e) {
                     log_console('Eval Error: ' + e);
+<<<<<<< HEAD
                     log_console('env: ' + JSON.stringify(env));
+=======
+>>>>>>> gh-pages
                 }
             }
             catch (e) {

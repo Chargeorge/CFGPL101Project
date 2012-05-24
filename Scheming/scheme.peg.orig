@@ -5,10 +5,17 @@ expression =
     atom / expressionlistencl 
     
 startparens = 
+<<<<<<< HEAD
 	"(" whitespace
 
 endparens = 
 	")" whitespace
+=======
+	"("
+
+endparens = 
+	")"
+>>>>>>> gh-pages
     
 validchar
     = [0-9a-zA-Z_?!+\-=@#$%^&*/.]

@@ -5,10 +5,10 @@ expression =
     atom / expressionlistencl 
     
 startparens = 
-	"("
+	"(" whitespace
 
 endparens = 
-	")"
+	")" whitespace
     
 validchar
     = [0-9a-zA-Z_?!+\-=@#$%^&*/.]

@@ -6,16 +6,44 @@
   <script src=
     "http://nathansuniversity.com/js/jquery-1.7.1.min.js">
   </script>
-  <script src="../EvalScheem.js"></script>
+  <script src="../EvalScheemWeb.js"></script>
   <script src="../parser.js"></script>
 </head>
 <body>
+<script languagecx="javascript">
+    var tests = {
+        factorial: 
+"(begin \r\n\
+    (define factorial\r\n\
+        (lambda (n)\r\n\
+        (if (= n 0) 1\r\n\
+            (* n (factorial (- n 1)))))) (factorial 5))",
+
+        passingAnonFunC:
+"(begin \r\n\
+   (define map\r\n\
+      (lambda (elem mapfunc)\r\n\
+         (mapfunc elem))) (map 5 (lambda (x) (+ x 1))))",
+        modifyingGlobalVar:
+        "(begin \r\n\
+   (define y 5)\r\n\
+   (define map\r\n\
+      (lambda (elem mapfunc)\r\n\
+         (set! y (mapfunc elem)))) (map 8 (lambda (x) (+ x 1))) y)"
+    };
+</script>
+Pre done functions
+<ol>
+    <li><a href="#" onclick="setInput(tests.factorial)">Recursive factorial</a></li>
+    <li><a href="#" onclick="setInput(tests.passingAnonFunC)">Passing a function to a function, in this case +1</a></li>
+    <li><a href="#" onclick="setInput(tests.modifyingGlobalVar)">modifying a global var, in this case y</a></li>
+</ol>
 
 <textarea id="input" style="width:800px; height:300px;">
-(+ 1 2)</textarea>
+</textarea>
 
+<input id="DoDebug" type="checkbox" /> Debug
 <input id="submitbutton" type="button" value="Run" />
-
 <div id="console" class="console" style="border:solid 1px;">
 <p>This is where output goes.</p>
 </div>
@@ -26,9 +54,15 @@
     var log_console = function (msg) {
         $('#console').append('<p>' + msg + '</p>');
     };
+    var setInput = function (string) {
+        $('#input').val(string);
+    }
     // After page load
     $(function () {
+
         $('#submitbutton').click(function () {
+            var env = {};
+            defaultEnv.bindings["_DoDebug"] = $('#DoDebug').is(':checked'); ;
             var user_text = $('#input').val();
             $('#console').html(''); // clear console
             log_console('Your input was: "' + user_text + '"');
@@ -36,11 +70,12 @@
                 var parsed = SCHEEM.parse(user_text);
                 log_console('Parsed: ' + JSON.stringify(parsed));
                 try {
-                    var result = evalScheem(parsed, {});
+                    var result = evalScheem(parsed, defaultEnv);
                     log_console('Result: ' + JSON.stringify(result));
                 }
                 catch (e) {
                     log_console('Eval Error: ' + e);
+                    log_console('env: ' + JSON.stringify(env));
                 }
             }
             catch (e) {

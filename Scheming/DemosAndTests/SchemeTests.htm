@@ -62,6 +62,8 @@ Pre done functions
 
         $('#submitbutton').click(function () {
             var env = {};
+            var defaultEnv = createDefault();
+            
             defaultEnv.bindings["_DoDebug"] = $('#DoDebug').is(':checked'); ;
             var user_text = $('#input').val();
             $('#console').html(''); // clear console

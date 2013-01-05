@@ -50,10 +50,6 @@ var compile = function (musexpr) {
 
 };
 
-
-
-
-
 var melody_mus =
     { tag: 'seq',
         left:

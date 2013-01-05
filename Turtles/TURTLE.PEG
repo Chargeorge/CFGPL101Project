@@ -1,5 +1,5 @@
 
-start = statements*
+start = statements
 
 number_frac
     = "." chars:[0-9]*
@@ -20,11 +20,14 @@ identifier
         { return firstchar + chars.join(''); }
 
 ws =
- [' '\t\r\n]+
+ [' '\t\r\n]*
 
 expression
     = expr:comparative
         { return expr; }
+		/
+		expr:string
+		{return expr;}
 
 comp_op = "<=" / ">=" / "!=" / "==" / "<" / ">"
 
@@ -65,6 +68,9 @@ arglist
     = first:expression rest:comma_expression*
         { return [first].concat(rest); }
 
+string
+	= "'" chars:[0-9a-zA-Z]*  "'"
+		{return chars.join("");}
 
 identifier
     = chars:[a-z]+
@@ -96,6 +102,10 @@ statement
       "repeat" ws "(" ws condition:expression ws ")" ws "{" ws body:statements ws "}"  
       	{return {tag:"repeat", expr: condition, body:body};}
 		/
+		"while" ws "(" ws condition:expression ws ")" ws "{" ws body:statements ws "}"  
+      	{return {tag:"while", expr: condition, body:body};}
+		/
+
 		expr:expression ws ";" ws
 		{return expr;}
 
